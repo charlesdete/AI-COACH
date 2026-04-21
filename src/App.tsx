@@ -4,12 +4,14 @@ import SignUp from "./features/auth/pages/Signup";
 
 
 export default function App(){
-    <Router>
+    return(
+        <Router>
         <Routes>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
 
         </Routes>
     </Router>
+    )
 
 }
