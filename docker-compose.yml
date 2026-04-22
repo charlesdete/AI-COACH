@@ -1,0 +1,11 @@
+
+services:
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app        # <- local code is mounted into the container
+      - /app/node_modules  # avoids overwriting container's node_modules
+    ports:
+      - "5173:5173"   # Vite default port, change if CRA or different
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"

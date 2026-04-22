@@ -6,11 +6,11 @@ import SignUp from "./features/auth/pages/Signup";
 export default function App(){
     return(
         <Router>
-        <Routes>
+            <Routes>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
 
-        </Routes>
+            </Routes>
     </Router>
     )
 
