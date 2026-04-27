@@ -1,17 +1,26 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
-import Login from "./features/auth/pages/Login"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./features/auth/pages/Login";
 import SignUp from "./features/auth/pages/Signup";
 
+// Import your pages so the router can see them
+import Dashboard from "./roles/teachers/pages/Dashboard";
+import LoopRooms from "./roles/teachers/pages/LoopRooms";
 
-export default function App(){
-    return(
-        <Router>
-            <Routes>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<SignUp/>}/>
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Login and Signup routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
 
-            </Routes>
+        {/* YOUR ROUTES */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/loop/:topic" element={<LoopRooms />} />
+
+        {/* This line FIXES the black screen by making Dashboard the home page */}
+        <Route path="/" element={<Dashboard />} />
+      </Routes>
     </Router>
-    )
-
+  );
 }
