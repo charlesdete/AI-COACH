@@ -14,7 +14,7 @@ export default function Dashboard() {
   // 2. You MUST have a 'return' statement
   return (
     <main style={{ backgroundColor: '#EFF9FF', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '60px' }}>
-      <h1 style={{ color: '#105554', fontSize: '2rem', marginBottom: '40px' }}>
+      <h1 style={{ color: '#105554', fontSize: '2rem', marginBottom: '40px'}}>
         What do you want to improve this week?
       </h1>
 
