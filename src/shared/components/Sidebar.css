@@ -1,0 +1,166 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar-header {
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.sidebar-branding {
+  flex: 1;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-role {
+  font-size: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0.5rem 0 0 0;
+}
+
+.sidebar-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  color: var(--accent);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0 0.5rem;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
+}
+
+.nav-link:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.nav-link.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 500;
+  border-left: 3px solid var(--accent);
+  padding-left: calc(1rem - 3px);
+}
+
+.nav-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.nav-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.sidebar.collapsed .nav-label {
+  display: none;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.sidebar-version {
+  font-size: 12px;
+  color: var(--text);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+    padding: 1rem 0;
+  }
+
+  .sidebar-header {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-title {
+    display: none;
+  }
+
+  .sidebar-role {
+    font-size: 10px;
+  }
+
+  .nav-link {
+    padding: 0.75rem;
+    justify-content: center;
+  }
+
+  .nav-link.active {
+    border-left: none;
+    border-bottom: 3px solid var(--accent);
+    padding-left: 0.75rem;
+    padding-bottom: calc(0.75rem - 3px);
+  }
+
+  .nav-label {
+    display: none;
+  }
+}
