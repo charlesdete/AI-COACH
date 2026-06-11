@@ -1,0 +1,101 @@
+.stat-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card-primary {
+  border-left: 4px solid #0066cc;
+}
+
+.stat-card-success {
+  border-left: 4px solid #00aa44;
+}
+
+.stat-card-warning {
+  border-left: 4px solid #ff9900;
+}
+
+.stat-card-danger {
+  border-left: 4px solid #ff3333;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-icon {
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.stat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin: 0;
+}
+
+.stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.trend-up {
+  color: #00aa44;
+}
+
+.trend-down {
+  color: #ff3333;
+}
+
+.trend-icon {
+  font-size: 16px;
+}
+
+.trend-value {
+  margin-left: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 22px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+}
