@@ -1,44 +1,106 @@
 import { Link } from "react-router-dom";
+import "./Dashboard.css";
+
+const options = [
+  {
+    label: "Connecting lessons to the Bible",
+    icon: "📖",
+    description: "Bridge scripture to real classroom moments",
+    badge: null,
+  },
+  {
+    label: "Managing student behavior",
+    icon: "🧭",
+    description: "Strategies for a calm, focused room",
+    badge: null,
+  },
+  {
+    label: "Engaging students",
+    icon: "✨",
+    description: "Keep every learner active and curious",
+    badge: "Popular",
+  },
+  {
+    label: "Checking if students understand",
+    icon: "🎯",
+    description: "Formative checks that actually reveal gaps",
+    badge: null,
+  },
+  {
+    label: "Helping students struggling to learn",
+    icon: "🤝",
+    description: "Meet every learner where they are",
+    badge: null,
+  },
+  {
+    label: "Something else",
+    icon: "💬",
+    description: "Bring your own challenge to the coach",
+    badge: null,
+  },
+];
+
+const stats = [
+  { value: "12", label: "Sessions" },
+  { value: "4", label: "Topics" },
+  { value: "3", label: "This week" },
+];
 
 export default function Dashboard() {
-  // 1. Define the options array
-  const options = [
-    "Connecting lessons to the Bible",
-    "Managing student behavior",
-    "Engaging students",
-    "Checking if students understand",
-    "Helping students struggling to learn",
-    "Something Else?"
-  ];
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
-  // 2. You MUST have a 'return' statement
   return (
-    <main style={{ backgroundColor: '#EFF9FF', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '60px' }}>
-      <h1 style={{ color: '#105554', fontSize: '2rem', marginBottom: '40px'}}>
-        What do you want to improve this week?
-      </h1>
+    <main className="dashboard-root">
+      <header className="dashboard-header">
+        <p className="dashboard-eyebrow">{today}</p>
+        <h1 className="dashboard-title">
+          What do you want to improve this week?
+        </h1>
+        <p className="dashboard-subtitle">
+          Pick a focus area and your AI coach will guide you through a
+          personalised growth loop.
+        </p>
+      </header>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '100%', maxWidth: '450px' }}>
-        {options.map((item, index) => (
-          <Link
-            key={index}
-            /* IMPORTANT: Use backticks ` ` here, not single quotes ' ' */
-            to={`/loop/${encodeURIComponent(item)}`}
-            style={{ 
-              backgroundColor: '#DDEEEB', 
-              borderRadius: '9999px',
-              padding: '20px',
-              textAlign: 'center',
-              textDecoration: 'none',
-              color: '#105554',
-              fontWeight: '500',
-              fontSize: '1.1rem',
-              display: 'block'
-            }}
-          >
-            {item}
-          </Link>
+      <div className="dashboard-stats">
+        {stats.map((s) => (
+          <div className="stat-card" key={s.label}>
+            <div className="stat-value">{s.value}</div>
+            <div className="stat-label">{s.label}</div>
+          </div>
         ))}
+      </div>
+
+      <div className="options-grid">
+        {options.map((option, i) => {
+          const isLast = i === options.length - 1;
+          const isOddTotal = options.length % 2 !== 0;
+          const spanFull = isLast && isOddTotal;
+
+          return (
+            <Link
+              key={option.label}
+              to={`/loop/${encodeURIComponent(option.label)}`}
+              className={`option-card${spanFull ? " span-full" : ""}`}
+            >
+              {option.badge && (
+                <span className="option-badge">{option.badge}</span>
+              )}
+              <span className="option-icon">{option.icon}</span>
+              <span className="option-label">{option.label}</span>
+              <span className="option-description">{option.description}</span>
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="session-strip">
+        <span className="session-dot" />
+        <span>AI coach ready · sessions are saved to your profile</span>
       </div>
     </main>
   );

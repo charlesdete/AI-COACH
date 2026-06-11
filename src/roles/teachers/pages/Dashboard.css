@@ -1,0 +1,186 @@
+/* ─── Layout ─────────────────────────────────────────── */
+.dashboard-root {
+  min-height: 100vh;
+  background-color: #eff9ff;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 80px;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+  max-width: 540px;
+}
+
+.dashboard-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3b9e98;
+  margin: 0 0 12px;
+}
+
+.dashboard-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #0d3d3c;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+
+.dashboard-subtitle {
+  font-size: 0.92rem;
+  color: #5a8c89;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Stats row ──────────────────────────────────────── */
+.dashboard-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.stat-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1.5px solid #c8e8e5;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0d3d3c;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: #5a8c89;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Options grid ───────────────────────────────────── */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 560px;
+}
+
+.option-card {
+  background: #ffffff;
+  border: 1.5px solid #c8e8e5;
+  border-radius: 16px;
+  padding: 20px 18px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition:
+    border-color 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
+  cursor: pointer;
+  position: relative;
+}
+
+.option-card:hover {
+  border-color: #3b9e98;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 85, 84, 0.1);
+}
+
+.option-card.span-full {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.option-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #e6f7f6;
+  color: #3b9e98;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.option-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.option-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0d3d3c;
+  line-height: 1.3;
+}
+
+.option-description {
+  font-size: 0.76rem;
+  color: #5a8c89;
+  line-height: 1.45;
+}
+
+/* ─── Footer strip ───────────────────────────────────── */
+.session-strip {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: #7aaeab;
+}
+
+.session-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b9e98;
+  flex-shrink: 0;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 500px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+  .option-card.span-full {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  .dashboard-stats {
+    gap: 8px;
+  }
+}

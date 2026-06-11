@@ -1,0 +1,200 @@
+/* ─── Layout ─────────────────────────────────────────── */
+.looprooms-root {
+  min-height: 100vh;
+  background-color: #eff9ff;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px 80px;
+}
+
+/* ─── Back nav ───────────────────────────────────────── */
+.looprooms-back {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #3b9e98;
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: opacity 0.15s;
+}
+
+.looprooms-back:hover {
+  opacity: 0.7;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.looprooms-header {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+.looprooms-topic-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.looprooms-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0d3d3c;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.looprooms-subtitle {
+  font-size: 0.85rem;
+  color: #5a8c89;
+  margin: 0;
+}
+
+/* ─── New session button ─────────────────────────────── */
+.looprooms-new-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+  background: #105554;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 32px;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+
+.looprooms-new-btn:hover {
+  background: #0d3d3c;
+  transform: translateY(-1px);
+}
+
+/* ─── Section label ──────────────────────────────────── */
+.looprooms-section-label {
+  width: 100%;
+  max-width: 600px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7aaeab;
+  margin-bottom: 12px;
+}
+
+/* ─── Room cards list ────────────────────────────────── */
+.looprooms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.room-card {
+  background: #ffffff;
+  border: 1.5px solid #c8e8e5;
+  border-radius: 14px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.room-card:hover {
+  border-color: #3b9e98;
+  box-shadow: 0 4px 16px rgba(16, 85, 84, 0.08);
+}
+
+.room-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #e6f7f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.room-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.room-card-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0d3d3c;
+  margin: 0 0 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-card-meta {
+  font-size: 0.75rem;
+  color: #7aaeab;
+  margin: 0;
+}
+
+.room-card-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.room-card-status.active {
+  background: #e6f7f6;
+  color: #3b9e98;
+}
+
+.room-card-status.done {
+  background: #f1eef8;
+  color: #7c6baa;
+}
+
+.room-card-chevron {
+  color: #c8e8e5;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ─── Empty state ────────────────────────────────────── */
+.looprooms-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #7aaeab;
+  font-size: 0.88rem;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 500px) {
+  .looprooms-title {
+    font-size: 1.25rem;
+  }
+}
