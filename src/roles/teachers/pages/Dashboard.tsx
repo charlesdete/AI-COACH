@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
+import { useAuthStore } from "../../../store/authStore";
+import { useMessagingStore } from "../../../store/messagingStore";
 
 const options = [
   {
@@ -47,14 +49,37 @@ const stats = [
 ];
 
 export default function Dashboard() {
+  const { user, logout } = useAuthStore();
+  const { conversations, getTotalUnread } = useMessagingStore();
+  const totalUnread = getTotalUnread();
+
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
     day: "numeric",
   });
 
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/login';
+  };
+
   return (
     <main className="dashboard-root">
+      <div className="dashboard-topbar">
+        <div className="dashboard-topbar-left">
+          <span className="dashboard-brand">🎓 AI-COACH</span>
+          {user && <span className="dashboard-user-name">Hi, {user.name.split(' ')[0]}</span>}
+        </div>
+        <div className="dashboard-topbar-right">
+          <Link to="/teacher/messages" className="dashboard-msg-btn">
+            💬 My Coach
+            {totalUnread > 0 && <span className="dashboard-msg-badge">{totalUnread}</span>}
+          </Link>
+          <button className="dashboard-logout-btn" onClick={handleLogout}>Sign out</button>
+        </div>
+      </div>
+
       <header className="dashboard-header">
         <p className="dashboard-eyebrow">{today}</p>
         <h1 className="dashboard-title">

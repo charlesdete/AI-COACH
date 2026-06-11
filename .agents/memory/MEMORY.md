@@ -1,0 +1,2 @@
+- [Recharts v3 + Vite 8 incompatibility](recharts-vite-compat.md) — recharts v3 uses es-toolkit which breaks CJS/ESM in Vite 8; use recharts v2.
+- [TypeScript interface imports in Vite](vite-type-imports.md) — interfaces/types from .ts files must use `import type` or Vite throws runtime "does not export" errors.

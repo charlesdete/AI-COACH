@@ -2,6 +2,7 @@ import React from 'react';
 import './Header.css';
 import { useAuthStore } from '../../store/authStore';
 import { useMessagingStore } from '../../store/messagingStore';
+import { Link } from 'react-router-dom';
 
 interface HeaderProps {
   title?: string;
@@ -9,14 +10,19 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const { getTotalUnread } = useMessagingStore();
   const unreadCount = getTotalUnread();
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = '/login';
-  };
+  const roleColor =
+    user?.role === 'admin' ? '#0066cc' :
+    user?.role === 'coach' ? '#00aa44' :
+    '#ff6600';
+
+  const messagesPath =
+    user?.role === 'admin' ? '/admin/messages' :
+    user?.role === 'coach' ? '/coach/chats' :
+    '/teacher/messages';
 
   return (
     <header className="header">
@@ -25,30 +31,24 @@ export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
           {title && <h1 className="header-main-title">{title}</h1>}
           {subtitle && <p className="header-subtitle">{subtitle}</p>}
         </div>
-        
+
         <div className="header-actions">
           {unreadCount > 0 && (
-            <div className="notification-badge">
-              <span className="badge-count">{unreadCount}</span>
-              <p className="badge-label">Messages</p>
-            </div>
+            <Link to={messagesPath} className="header-notif" style={{ borderColor: `${roleColor}44`, background: `${roleColor}10` }}>
+              <span className="notif-icon">💬</span>
+              <span className="notif-count" style={{ background: roleColor }}>{unreadCount}</span>
+              <span className="notif-label">unread</span>
+            </Link>
           )}
-          
-          <div className="user-menu">
-            {user && (
-              <>
-                <div className="user-info">
-                  <p className="user-name">{user.name}</p>
-                  <span className="user-role">{user.role}</span>
-                </div>
-                {user.avatar && (
-                  <img src={user.avatar} alt={user.name} className="user-avatar" />
-                )}
-              </>
-            )}
-            <button className="logout-btn" onClick={handleLogout}>
-              Logout
-            </button>
+
+          <div className="header-user">
+            <div className="header-avatar" style={{ background: roleColor }}>
+              {user?.name?.charAt(0) ?? '?'}
+            </div>
+            <div className="header-user-info">
+              <p className="header-user-name">{user?.name}</p>
+              <span className="header-user-role" style={{ color: roleColor }}>{user?.role}</span>
+            </div>
           </div>
         </div>
       </div>

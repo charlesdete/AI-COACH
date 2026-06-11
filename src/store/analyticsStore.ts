@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AnalyticsOverview } from '../shared/types/analytics';
+import type { AnalyticsOverview } from '../shared/types/analytics';
 
 interface AnalyticsState {
   analyticsData: AnalyticsOverview | null;

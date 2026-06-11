@@ -1,0 +1,202 @@
+.users-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.users-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e5e4e7;
+  background: #fafafa;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #6b6375;
+  transition: all 0.15s;
+}
+
+.filter-btn.active {
+  background: #0066cc;
+  border-color: #0066cc;
+  color: #fff;
+}
+
+.filter-btn:hover:not(.active) {
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.filter-count {
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.filter-btn:not(.active) .filter-count {
+  background: #e5e4e7;
+  color: #6b6375;
+}
+
+.users-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1.5px solid #e5e4e7;
+  border-radius: 8px;
+  min-width: 220px;
+}
+
+.search-icon { font-size: 14px; }
+
+.users-search input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #08060d;
+  background: transparent;
+  width: 100%;
+}
+
+.users-search input::placeholder { color: #9ca3af; }
+
+.users-table-wrap {
+  background: #fff;
+  border: 1px solid #e5e4e7;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  background: #f8f7ff;
+  border-bottom: 1px solid #e5e4e7;
+}
+
+.users-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b6375;
+}
+
+.users-table tbody tr {
+  border-bottom: 1px solid #f4f3ec;
+  transition: background 0.1s;
+}
+
+.users-table tbody tr:last-child { border-bottom: none; }
+.users-table tbody tr:hover { background: #fafafa; }
+
+.users-table td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-cell-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-cell-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #08060d;
+  margin: 0 0 2px;
+}
+
+.user-cell-email {
+  font-size: 12px;
+  color: #6b6375;
+  margin: 0;
+}
+
+.role-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-active {
+  background: rgba(0, 170, 68, 0.12);
+  color: #00aa44;
+}
+
+.status-inactive {
+  background: rgba(107, 99, 117, 0.12);
+  color: #6b6375;
+}
+
+.sessions-cell {
+  font-size: 14px;
+  font-weight: 600;
+  color: #08060d;
+}
+
+.joined-cell {
+  font-size: 13px;
+  color: #6b6375;
+}
+
+.users-empty {
+  padding: 40px;
+  text-align: center;
+  color: #6b6375;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .users-table th:nth-child(4),
+  .users-table td:nth-child(4),
+  .users-table th:nth-child(5),
+  .users-table td:nth-child(5) { display: none; }
+  .users-toolbar { flex-direction: column; align-items: flex-start; }
+  .users-search { width: 100%; min-width: unset; }
+}

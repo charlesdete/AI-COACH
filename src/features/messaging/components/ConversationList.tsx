@@ -1,6 +1,6 @@
 import React from 'react';
 import './ConversationList.css';
-import { Conversation } from '../../../shared/types/message';
+import type { Conversation } from '../../../shared/types/message';
 import { useMessagingStore } from '../../../store/messagingStore';
 
 interface ConversationListProps {

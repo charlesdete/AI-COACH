@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './MessageThread.css';
-import { Message } from '../../../shared/types/message';
+import type { Message } from '../../../shared/types/message';
 import { useAuthStore } from '../../../store/authStore';
 
 interface MessageThreadProps {
