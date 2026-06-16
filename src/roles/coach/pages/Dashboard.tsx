@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
 import Header from '../../../shared/components/Header';
 import Sidebar from '../../../shared/components/Sidebar';
 import { useAuthStore } from '../../../store/authStore';
 import { useMessagingStore } from '../../../store/messagingStore';
+import { getAllSessions, closeSession } from '../../../store/sessionStore';
+import type { Session } from '../../../store/sessionStore';
 
 const coachNavItems = [
   { label: 'Dashboard', path: '/coach', icon: '🏠' },
@@ -21,6 +23,27 @@ export const CoachDashboard: React.FC = () => {
   const { user } = useAuthStore();
   const { conversations, getTotalUnread } = useMessagingStore();
   const totalUnread = getTotalUnread();
+
+  // Load active AI-coaching sessions for each assigned teacher
+  const [teacherSessions, setTeacherSessions] = useState<
+    { teacher: (typeof ASSIGNED_TEACHERS)[0]; session: Session }[]
+  >([]);
+
+  useEffect(() => {
+    const active = ASSIGNED_TEACHERS.flatMap((t) =>
+      getAllSessions(t.id)
+        .filter((s) => s.status === 'active')
+        .map((s) => ({ teacher: t, session: s }))
+    );
+    setTeacherSessions(active);
+  }, []);
+
+  function handleCloseSession(teacherId: string, sessionId: string) {
+    closeSession(teacherId, sessionId);
+    setTeacherSessions((prev) =>
+      prev.filter((item) => item.session.id !== sessionId)
+    );
+  }
 
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
@@ -62,6 +85,36 @@ export const CoachDashboard: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* ── Active teacher sessions ── */}
+          {teacherSessions.length > 0 && (
+            <section className="coach-card coach-sessions-card">
+              <div className="coach-card-header">
+                <h2>Active Sessions</h2>
+                <span className="coach-sessions-count">{teacherSessions.length} active</span>
+              </div>
+              <div className="coach-sessions-list">
+                {teacherSessions.map(({ teacher, session }) => (
+                  <div key={session.id} className="coach-session-row">
+                    <div className="csr-avatar" style={{ background: '#e6f7f6', color: '#3b9e98' }}>
+                      {teacher.name.split(' ').map((w: string) => w[0]).join('')}
+                    </div>
+                    <div className="csr-info">
+                      <p className="csr-name">{teacher.name}</p>
+                      <p className="csr-topic">{session.topic} · {session.title}</p>
+                    </div>
+                    <button
+                      className="csr-close-btn"
+                      onClick={() => handleCloseSession(teacher.id, session.id)}
+                      title="Close this session"
+                    >
+                      Close session
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <div className="coach-body-grid">
             <section className="coach-card coach-teachers-card">

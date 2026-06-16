@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   getSessionsByTopic,
+  getAllSessions,
   createSession,
   formatSessionDate,
 } from "../../../store/sessionStore";
 import type { Session } from "../../../store/sessionStore";
+import { useAuthStore } from "../../../store/authStore";
 import "./LoopRooms.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -19,38 +21,35 @@ const TOPIC_ICONS: Record<string, string> = {
   "Something else": "💬",
 };
 
-// ─── Hook: current user ───────────────────────────────────────────────────────
-// Replace this with your real auth hook (e.g. useAuth()) when ready.
-// For now it returns a stable mock user id from localStorage.
-
-function useCurrentUserId(): string {
-  const key = "ai_coach_dev_user_id";
-  let id = localStorage.getItem(key);
-  if (!id) {
-    id = `user_${Math.random().toString(36).slice(2, 9)}`;
-    localStorage.setItem(key, id);
-  }
-  return id;
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function LoopRooms() {
   const { topic } = useParams<{ topic: string }>();
   const navigate = useNavigate();
-  const userId = useCurrentUserId();
+  const { user } = useAuthStore();
+  const userId = user?.id ?? "anonymous";
 
   const decoded = topic ? decodeURIComponent(topic) : "Your topic";
   const icon = TOPIC_ICONS[decoded] ?? "💬";
 
   const [sessions, setSessions] = useState<Session[]>([]);
+  const [activeElsewhere, setActiveElsewhere] = useState<Session | null>(null);
 
   // Load sessions for this user + topic on mount
   useEffect(() => {
     setSessions(getSessionsByTopic(userId, decoded));
+    // Check for an active session on a different topic
+    const allActive = getAllSessions(userId).find(
+      (s) => s.status === "active" && s.topic !== decoded
+    );
+    setActiveElsewhere(allActive ?? null);
   }, [userId, decoded]);
 
+  const activeHere = sessions.find((s) => s.status === "active") ?? null;
+  const canStartNew = !activeHere && !activeElsewhere;
+
   function handleStartSession() {
+    if (!canStartNew) return;
     const session = createSession(userId, decoded);
     navigate(`/loop/${topic}/chat/${session.id}`);
   }
@@ -73,9 +72,33 @@ export default function LoopRooms() {
         </p>
       </div>
 
-      <button className="looprooms-new-btn" onClick={handleStartSession}>
-        + Start session {nextNumber}
-      </button>
+      {activeHere && (
+        <Link
+          to={`/loop/${topic}/chat/${activeHere.id}`}
+          className="looprooms-new-btn"
+        >
+          Continue active session →
+        </Link>
+      )}
+
+      {activeElsewhere && !activeHere && (
+        <div className="looprooms-active-notice">
+          You have an active session on <strong>{activeElsewhere.topic}</strong>.
+          Your coach must close it before you can start a new one.{" "}
+          <Link
+            to={`/loop/${encodeURIComponent(activeElsewhere.topic)}/chat/${activeElsewhere.id}`}
+            className="looprooms-active-link"
+          >
+            Go to that session →
+          </Link>
+        </div>
+      )}
+
+      {canStartNew && (
+        <button className="looprooms-new-btn" onClick={handleStartSession}>
+          + Start session {nextNumber}
+        </button>
+      )}
 
       {sessions.length > 0 && (
         <>

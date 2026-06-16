@@ -184,6 +184,29 @@
   flex-shrink: 0;
 }
 
+/* ─── Active-elsewhere notice ────────────────────────── */
+.looprooms-active-notice {
+  background: #fff8e6;
+  border: 1px solid #f5d87e;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  color: #7a5c00;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.looprooms-active-link {
+  color: #105554;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.looprooms-active-link:hover {
+  text-decoration: underline;
+}
+
 /* ─── Empty state ────────────────────────────────────── */
 .looprooms-empty {
   text-align: center;

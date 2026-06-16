@@ -4,9 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import {
   getSession,
   appendMessage,
-  closeSession,
 } from "../../../store/sessionStore";
 import type { ChatMessage, Session } from "../../../store/sessionStore";
+import { useAuthStore } from "../../../store/authStore";
 import "./ChatRooms.css";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -79,23 +79,12 @@ const GREETINGS: Record<string, string> = {
     "I'm here for whatever's on your mind as a teacher. No topic is too small or too specific. What's the challenge you want to bring to this session?",
 };
 
-// ─── Auth hook (replace with real auth) ──────────────────────────────────────
-
-function useCurrentUserId(): string {
-  const key = "ai_coach_dev_user_id";
-  let id = localStorage.getItem(key);
-  if (!id) {
-    id = `user_${Math.random().toString(36).slice(2, 9)}`;
-    localStorage.setItem(key, id);
-  }
-  return id;
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ChatRoom() {
   const { topic, roomId } = useParams<{ topic: string; roomId: string }>();
-  const userId = useCurrentUserId();
+  const { user } = useAuthStore();
+  const userId = user?.id ?? "anonymous";
 
   const decoded = topic ? decodeURIComponent(topic) : "Your topic";
   const icon = TOPIC_ICONS[decoded] ?? "💬";
@@ -141,6 +130,18 @@ export default function ChatRoom() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  // Poll session status so the teacher sees when the coach closes it
+  useEffect(() => {
+    if (!roomId || session?.status === "done") return;
+    const id = setInterval(() => {
+      const latest = getSession(userId, roomId);
+      if (latest?.status === "done") {
+        setSession((prev) => (prev ? { ...prev, status: "done" } : prev));
+      }
+    }, 5000);
+    return () => clearInterval(id);
+  }, [userId, roomId, session?.status]);
 
   // ── Input handling ──────────────────────────────────────────────────────────
 
@@ -236,14 +237,6 @@ Always end with one clear question or action to move the conversation forward.`,
     }
   }
 
-  // ── End session ─────────────────────────────────────────────────────────────
-
-  function handleEndSession() {
-    if (!roomId) return;
-    closeSession(userId, roomId);
-    setSession((prev) => (prev ? { ...prev, status: "done" } : prev));
-  }
-
   // ── Render ──────────────────────────────────────────────────────────────────
 
   const sessionLabel = session?.title ?? "Session";
@@ -261,7 +254,7 @@ Always end with one clear question or action to move the conversation forward.`,
           ←
         </Link>
 
-        <div className="chatroom-avatar">AI</div>
+        <div className="chatroom-avatar">Nuru</div>
 
         <div className="chatroom-info">
           <p className="chatroom-info-title">
@@ -272,15 +265,6 @@ Always end with one clear question or action to move the conversation forward.`,
 
         <div className="chatroom-navbar-right">
           <span className="chatroom-session-badge">{sessionLabel}</span>
-          {!isDone && (
-            <button
-              className="chatroom-end-btn"
-              onClick={handleEndSession}
-              title="Mark session as done"
-            >
-              End
-            </button>
-          )}
           {isDone && <span className="chatroom-done-badge">Done</span>}
         </div>
       </nav>
@@ -300,7 +284,7 @@ Always end with one clear question or action to move the conversation forward.`,
         {messages.map((msg) => (
           <div key={msg.id} className={`chat-message ${msg.role}`}>
             <div className={`chat-msg-avatar ${msg.role}`}>
-              {msg.role === "coach" ? "AI" : "You"}
+              {msg.role === "coach" ? "Nuru" : "You"}
             </div>
             <div className="chat-bubble-wrap">
               <div className="chat-bubble">{msg.text}</div>
@@ -311,7 +295,7 @@ Always end with one clear question or action to move the conversation forward.`,
 
         {isTyping && (
           <div className="chat-typing">
-            <div className="chat-msg-avatar coach">AI</div>
+            <div className="chat-msg-avatar coach">Nuru</div>
             <div className="typing-bubble">
               <span className="typing-dot" />
               <span className="typing-dot" />
