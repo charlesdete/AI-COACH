@@ -24,6 +24,11 @@ export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
     user?.role === 'coach' ? '/coach/chats' :
     '/teacher/messages';
 
+  const profilePath =
+    user?.role === 'admin' ? '/admin' :
+    user?.role === 'coach' ? '/coach/profile' :
+    '/teacher/profile';
+
   return (
     <header className="header">
       <div className="header-content">
@@ -41,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
             </Link>
           )}
 
-          <div className="header-user">
+          <Link to={profilePath} className="header-user" title="View profile">
             <div className="header-avatar" style={{ background: roleColor }}>
               {user?.name?.charAt(0) ?? '?'}
             </div>
@@ -49,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
               <p className="header-user-name">{user?.name}</p>
               <span className="header-user-role" style={{ color: roleColor }}>{user?.role}</span>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </header>

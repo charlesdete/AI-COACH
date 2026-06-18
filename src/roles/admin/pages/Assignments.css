@@ -1,0 +1,165 @@
+/* ── Stats row ───────────────────────────────────────────── */
+.assign-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.assign-stat {
+  background: #fff;
+  border: 1px solid #e5e4e7;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 3px solid #0066cc;
+}
+
+.assign-stat--ok  { border-top-color: #00aa44; }
+.assign-stat--warn { border-top-color: #f59e0b; }
+
+.assign-stat-val {
+  font-size: 28px;
+  font-weight: 700;
+  color: #08060d;
+  line-height: 1;
+}
+
+.assign-stat-label {
+  font-size: 12px;
+  color: #6b6375;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.assign-card {
+  background: #fff;
+  border: 1px solid #e5e4e7;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+.assign-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.assign-table thead tr {
+  background: #f8f7fb;
+  border-bottom: 1px solid #e5e4e7;
+}
+
+.assign-table th {
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b6375;
+}
+
+.assign-table tbody tr {
+  border-bottom: 1px solid #f0eef4;
+  transition: background 0.1s;
+}
+
+.assign-table tbody tr:last-child { border-bottom: none; }
+.assign-table tbody tr:hover { background: #fafafe; }
+
+.assign-row--saved { background: #f0faf4 !important; }
+
+.assign-table td {
+  padding: 14px 18px;
+  vertical-align: middle;
+}
+
+/* ── Teacher cell ────────────────────────────────────────── */
+.assign-teacher-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.assign-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  color: #0066cc;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.assign-teacher-name {
+  font-weight: 600;
+  color: #08060d;
+}
+
+.assign-topic {
+  color: #6b6375;
+  font-size: 13px;
+}
+
+/* ── Select ──────────────────────────────────────────────── */
+.assign-select {
+  padding: 8px 32px 8px 12px;
+  border: 1.5px solid #e5e4e7;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #08060d;
+  cursor: pointer;
+  appearance: auto;
+  min-width: 180px;
+  transition: border-color 0.15s;
+}
+
+.assign-select:hover { border-color: #0066cc; }
+.assign-select:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.12); }
+
+/* ── Status badges ───────────────────────────────────────── */
+.assign-status-cell { width: 100px; }
+
+.assign-saved-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.assign-warn-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #d97706;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+/* ── Hint ────────────────────────────────────────────────── */
+.assign-hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .assign-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .assign-table th:nth-child(2),
+  .assign-table td:nth-child(2) { display: none; }
+}

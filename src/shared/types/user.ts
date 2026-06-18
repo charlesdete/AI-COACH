@@ -5,6 +5,7 @@ export interface User {
   email: string;
   name: string;
   role: UserRole;
+  roles?: UserRole[];   // set when a user holds more than one role
   avatar?: string;
   createdAt: string;
   updatedAt: string;

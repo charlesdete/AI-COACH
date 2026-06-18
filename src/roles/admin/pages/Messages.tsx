@@ -9,6 +9,8 @@ const adminNavItems = [
   { label: 'Dashboard', path: '/admin', icon: '📊' },
   { label: 'Analytics', path: '/admin/analytics', icon: '📈' },
   { label: 'Users', path: '/admin/users', icon: '👥' },
+  { label: 'Assignments', path: '/admin/assignments', icon: '🔗' },
+  { label: 'Loops', path: '/admin/loops', icon: '🎓' },
   { label: 'Messages', path: '/admin/messages', icon: '💬' },
 ];
 

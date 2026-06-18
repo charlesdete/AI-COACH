@@ -52,7 +52,7 @@
 .message-send-btn:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(170, 59, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.3);
 }
 
 .message-send-btn:active:not(:disabled) {

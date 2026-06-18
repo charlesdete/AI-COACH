@@ -3,10 +3,19 @@
 // Replace the read/write calls here with your real API when your backend is ready.
 // ─────────────────────────────────────────────────────────────────────────────
 
+export interface Attachment {
+  type: "image" | "document";
+  name: string;
+  mimeType?: string;
+  size?: number;
+  dataUrl?: string; // base64 for images; undefined for document (metadata only)
+}
+
 export interface ChatMessage {
   id: string;
   role: "coach" | "user";
   text: string;
+  attachment?: Attachment;
   timestamp: string; // ISO string — safe to serialise
 }
 
@@ -14,7 +23,7 @@ export interface Session {
   id: string; // unique session id
   userId: string; // ties the session to a specific teacher
   topic: string; // decoded topic label
-  title: string; // e.g. "Session 3"
+  title: string; // e.g. "Loop 3"
   createdAt: string; // ISO string
   updatedAt: string; // ISO string
   status: "active" | "done";
@@ -32,7 +41,16 @@ function storageKey(userId: string): string {
 export function getAllSessions(userId: string): Session[] {
   try {
     const raw = localStorage.getItem(storageKey(userId));
-    return raw ? (JSON.parse(raw) as Session[]) : [];
+    if (!raw) return [];
+    const sessions = JSON.parse(raw) as Session[];
+    const migrated = sessions.map((s) => ({
+      ...s,
+      title: s.title.replace(/^Session (\d+)$/, 'Loop $1'),
+    }));
+    if (migrated.some((s, i) => s.title !== sessions[i].title)) {
+      saveSessions(userId, migrated);
+    }
+    return migrated;
   } catch {
     return [];
   }
@@ -70,7 +88,7 @@ export function createSession(userId: string, topic: string): Session {
     id: `${userId}_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     userId,
     topic,
-    title: `Session ${sessionNumber}`,
+    title: `Loop ${sessionNumber}`,
     createdAt: now,
     updatedAt: now,
     status: "active",
@@ -106,6 +124,24 @@ export function closeSession(userId: string, sessionId: string): void {
   const updated = all.map((s) =>
     s.id === sessionId
       ? { ...s, status: "done" as const, updatedAt: new Date().toISOString() }
+      : s,
+  );
+  saveSessions(userId, updated);
+}
+
+/** Closes a session and appends a congratulations message visible to the teacher. */
+export function closeSessionWithCongrats(userId: string, sessionId: string): void {
+  const all = getAllSessions(userId);
+  const congratsMsg: ChatMessage = {
+    id: Math.random().toString(36).slice(2, 9),
+    role: "coach",
+    text: "🎉 Congratulations on completing this loop! Your commitment to growing as a teacher is truly commendable. Your coach has reviewed your progress and marked this loop as complete. Head back to the dashboard whenever you're ready to choose your next focus area — keep up the excellent work!",
+    timestamp: new Date().toISOString(),
+  };
+  const now = new Date().toISOString();
+  const updated = all.map((s) =>
+    s.id === sessionId
+      ? { ...s, status: "done" as const, updatedAt: now, messages: [...s.messages, congratsMsg] }
       : s,
   );
   saveSessions(userId, updated);

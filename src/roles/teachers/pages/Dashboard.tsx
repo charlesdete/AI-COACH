@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import { useAuthStore } from "../../../store/authStore";
 import { useMessagingStore } from "../../../store/messagingStore";
+import { getAllSessions } from "../../../store/sessionStore";
 
 const options = [
   {
@@ -43,7 +45,7 @@ const options = [
 ];
 
 const stats = [
-  { value: "12", label: "Sessions" },
+  { value: "12", label: "Loops" },
   { value: "4", label: "Topics" },
   { value: "3", label: "This week" },
 ];
@@ -52,6 +54,18 @@ export default function Dashboard() {
   const { user, logout } = useAuthStore();
   const { conversations, getTotalUnread } = useMessagingStore();
   const totalUnread = getTotalUnread();
+  const navigate = useNavigate();
+  const userId = user?.id ?? "anonymous";
+
+  useEffect(() => {
+    const active = getAllSessions(userId).find((s) => s.status === "active");
+    if (active) {
+      navigate(
+        `/loop/${encodeURIComponent(active.topic)}/chat/${active.id}`,
+        { replace: true }
+      );
+    }
+  }, [userId, navigate]);
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -125,7 +139,7 @@ export default function Dashboard() {
 
       <div className="session-strip">
         <span className="session-dot" />
-        <span>AI coach ready · sessions are saved to your profile</span>
+        <span>AI coach ready · loops are saved to your profile</span>
       </div>
     </main>
   );

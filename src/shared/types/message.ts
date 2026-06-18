@@ -1,3 +1,11 @@
+export interface MessageAttachment {
+  type: 'image' | 'document';
+  name: string;
+  mimeType?: string;
+  size?: number;
+  dataUrl?: string;
+}
+
 export interface Message {
   id: string;
   conversationId: string;
@@ -7,6 +15,7 @@ export interface Message {
   createdAt: string;
   readAt?: string;
   attachments?: string[];
+  attachment?: MessageAttachment;
 }
 
 export interface Conversation {

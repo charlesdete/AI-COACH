@@ -10,14 +10,16 @@ const adminNavItems = [
   { label: 'Dashboard', path: '/admin', icon: '📊' },
   { label: 'Analytics', path: '/admin/analytics', icon: '📈' },
   { label: 'Users', path: '/admin/users', icon: '👥' },
+  { label: 'Assignments', path: '/admin/assignments', icon: '🔗' },
+  { label: 'Loops', path: '/admin/loops', icon: '🎓' },
   { label: 'Messages', path: '/admin/messages', icon: '💬' },
 ];
 
 const recentActivity = [
   { id: 1, icon: '💬', text: 'Mr. Johnson sent a message to Coach Sarah', time: '25 min ago', color: '#0066cc' },
-  { id: 2, icon: '✅', text: 'Ms. Williams completed a coaching session', time: '2 hrs ago', color: '#00aa44' },
+  { id: 2, icon: '✅', text: 'Ms. Williams completed a coaching loop', time: '2 hrs ago', color: '#00aa44' },
   { id: 3, icon: '👤', text: 'Mr. Davis joined the platform', time: '5 hrs ago', color: '#ff6600' },
-  { id: 4, icon: '📈', text: 'Weekly analytics report generated', time: 'Yesterday', color: '#aa3bff' },
+  { id: 4, icon: '📈', text: 'Weekly analytics report generated', time: 'Yesterday', color: '#000080' },
   { id: 5, icon: '💬', text: 'Mr. Davis sent a message to Coach Sarah', time: 'Yesterday', color: '#0066cc' },
 ];
 
@@ -35,7 +37,7 @@ export const AdminDashboard: React.FC = () => {
         <main className="admin-main">
           <div className="stats-grid">
             <StatCard label="Total Users" value="24" icon="👤" color="primary" trend={{ value: 12, direction: 'up' }} />
-            <StatCard label="Active Sessions" value="8" icon="🎓" color="success" trend={{ value: 5, direction: 'up' }} />
+            <StatCard label="Active Loops" value="8" icon="🎓" color="success" trend={{ value: 5, direction: 'up' }} />
             <StatCard label="Conversations" value={conversations.length} icon="💬" color="warning" trend={{ value: 3, direction: 'up' }} />
             <StatCard label="Unread Messages" value={totalUnread} icon="📬" color={totalUnread > 0 ? 'danger' : 'success'} />
           </div>
@@ -112,9 +114,9 @@ export const AdminDashboard: React.FC = () => {
                   <span className="overview-val">1</span>
                 </div>
                 <div className="overview-row">
-                  <span className="overview-label">Sessions this week</span>
+                  <span className="overview-label">Loops this week</span>
                   <div className="overview-bar-wrap">
-                    <div className="overview-bar" style={{ width: '60%', background: '#aa3bff' }} />
+                    <div className="overview-bar" style={{ width: '60%', background: '#000080' }} />
                   </div>
                   <span className="overview-val">14</span>
                 </div>
@@ -134,14 +136,14 @@ export const AdminDashboard: React.FC = () => {
               </div>
               <div className="coaches-list">
                 {[
-                  { name: 'Coach Sarah', sessions: 24, teachers: 3, rate: 94 },
-                  { name: 'Coach Michael', sessions: 18, teachers: 2, rate: 87 },
+                  { name: 'Coach Sarah', loops: 24, teachers: 3, rate: 94 },
+                  { name: 'Coach Michael', loops: 18, teachers: 2, rate: 87 },
                 ].map((coach) => (
                   <div key={coach.name} className="coach-row">
                     <div className="coach-avatar" style={{ background: '#00aa44' }}>{coach.name.charAt(6)}</div>
                     <div className="coach-info">
                       <p className="coach-name">{coach.name}</p>
-                      <p className="coach-meta">{coach.teachers} teachers · {coach.sessions} sessions</p>
+                      <p className="coach-meta">{coach.teachers} teachers · {coach.loops} loops</p>
                     </div>
                     <div className="coach-rate" style={{ color: '#00aa44' }}>{coach.rate}%</div>
                   </div>

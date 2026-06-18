@@ -95,7 +95,7 @@
 }
 
 .conv-item:last-child { border-bottom: none; }
-.conv-item:hover { background: #f8f7ff; }
+.conv-item:hover { background: #f0f4ff; }
 .conv-item.selected { background: rgba(0, 102, 204, 0.06); border-left: 3px solid #0066cc; }
 .conv-item.has-unread { background: rgba(255, 51, 51, 0.03); }
 
@@ -326,7 +326,7 @@
 .admin-msg-bubble {
   font-size: 13px;
   color: #08060d;
-  background: #f8f7ff;
+  background: #f0f4ff;
   border: 1px solid #e5e4e7;
   border-radius: 10px;
   padding: 10px 14px;

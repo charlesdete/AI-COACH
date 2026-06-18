@@ -76,10 +76,15 @@
   align-items: center;
   gap: 10px;
   padding: 6px 12px;
-  background: #f8f7ff;
+  background: #f0f4ff;
   border-radius: 10px;
   border: 1px solid #e5e4e7;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
 }
+
+.header-user:hover { background: #e4ecff; border-color: #c5d3f0; }
 
 .header-avatar {
   width: 32px;

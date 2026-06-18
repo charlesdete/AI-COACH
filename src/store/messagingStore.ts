@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Message, Conversation } from '../shared/types/message';
+import type { Message, MessageAttachment, Conversation } from '../shared/types/message';
 
 const now = new Date();
 const hoursAgo = (h: number) => new Date(now.getTime() - h * 3600000).toISOString();
@@ -93,7 +93,7 @@ interface MessagingState {
   loadConversationMessages: (conversationId: string) => void;
   setMessages: (messages: Message[]) => void;
   addMessage: (message: Message) => void;
-  sendMessage: (conversationId: string, senderId: string, senderName: string, content: string) => void;
+  sendMessage: (conversationId: string, senderId: string, senderName: string, content: string, attachment?: MessageAttachment) => void;
   markConversationRead: (conversationId: string) => void;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -129,7 +129,7 @@ export const useMessagingStore = create<MessagingState>((set, get) => ({
     MOCK_MESSAGES[message.conversationId] = [...(MOCK_MESSAGES[message.conversationId] || []), message];
   },
 
-  sendMessage: (conversationId, senderId, senderName, content) => {
+  sendMessage: (conversationId, senderId, senderName, content, attachment?) => {
     const newMsg: Message = {
       id: `msg-${Date.now()}`,
       conversationId,
@@ -137,6 +137,7 @@ export const useMessagingStore = create<MessagingState>((set, get) => ({
       senderName,
       content,
       createdAt: new Date().toISOString(),
+      attachment,
     };
     const state = get();
     const updatedConversations = state.conversations.map((c) =>

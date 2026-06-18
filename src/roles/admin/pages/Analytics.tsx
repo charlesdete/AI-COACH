@@ -11,16 +11,18 @@ const adminNavItems = [
   { label: 'Dashboard', path: '/admin', icon: '📊' },
   { label: 'Analytics', path: '/admin/analytics', icon: '📈' },
   { label: 'Users', path: '/admin/users', icon: '👥' },
+  { label: 'Assignments', path: '/admin/assignments', icon: '🔗' },
+  { label: 'Loops', path: '/admin/loops', icon: '🎓' },
   { label: 'Messages', path: '/admin/messages', icon: '💬' },
 ];
 
 const sessionData = [
-  { week: 'Wk 1', sessions: 8, completed: 6 },
-  { week: 'Wk 2', sessions: 12, completed: 10 },
-  { week: 'Wk 3', sessions: 10, completed: 9 },
-  { week: 'Wk 4', sessions: 16, completed: 14 },
-  { week: 'Wk 5', sessions: 14, completed: 12 },
-  { week: 'Wk 6', sessions: 20, completed: 18 },
+  { week: 'Wk 1', loops: 8, completed: 6 },
+  { week: 'Wk 2', loops: 12, completed: 10 },
+  { week: 'Wk 3', loops: 10, completed: 9 },
+  { week: 'Wk 4', loops: 16, completed: 14 },
+  { week: 'Wk 5', loops: 14, completed: 12 },
+  { week: 'Wk 6', loops: 20, completed: 18 },
 ];
 
 const topicData = [
@@ -33,23 +35,23 @@ const topicData = [
 ];
 
 const engagementData = [
-  { month: 'Jan', messages: 45, sessions: 20 },
-  { month: 'Feb', messages: 62, sessions: 28 },
-  { month: 'Mar', messages: 55, sessions: 24 },
-  { month: 'Apr', messages: 78, sessions: 34 },
-  { month: 'May', messages: 90, sessions: 38 },
-  { month: 'Jun', messages: 102, sessions: 46 },
+  { month: 'Jan', messages: 45, loops: 20 },
+  { month: 'Feb', messages: 62, loops: 28 },
+  { month: 'Mar', messages: 55, loops: 24 },
+  { month: 'Apr', messages: 78, loops: 34 },
+  { month: 'May', messages: 90, loops: 38 },
+  { month: 'Jun', messages: 102, loops: 46 },
 ];
 
 const METRIC_CARDS = [
-  { label: 'Avg Session Length', value: '18 min', sub: '+3 min vs last month', color: '#0066cc' },
+  { label: 'Avg Loop Length', value: '18 min', sub: '+3 min vs last month', color: '#0066cc' },
   { label: 'Avg Messages / Convo', value: '6.4', sub: '+1.2 vs last month', color: '#00aa44' },
-  { label: 'Completion Rate', value: '82%', sub: '+5% vs last month', color: '#aa3bff' },
+  { label: 'Completion Rate', value: '82%', sub: '+5% vs last month', color: '#000080' },
   { label: 'Active Teachers', value: '16 / 18', sub: '89% engagement', color: '#ff6600' },
 ];
 
 export const Analytics: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'sessions' | 'topics' | 'engagement'>('sessions');
+  const [activeTab, setActiveTab] = useState<'loops' | 'topics' | 'engagement'>('loops');
 
   return (
     <div className="admin-layout">
@@ -71,7 +73,7 @@ export const Analytics: React.FC = () => {
 
           <div className="analytics-chart-card">
             <div className="chart-tabs">
-              {(['sessions', 'topics', 'engagement'] as const).map((tab) => (
+              {(['loops', 'topics', 'engagement'] as const).map((tab) => (
                 <button
                   key={tab}
                   className={`chart-tab ${activeTab === tab ? 'active' : ''}`}
@@ -82,9 +84,9 @@ export const Analytics: React.FC = () => {
               ))}
             </div>
 
-            {activeTab === 'sessions' && (
+            {activeTab === 'loops' && (
               <div className="chart-wrap">
-                <h3 className="chart-title">Weekly Sessions — Started vs Completed</h3>
+                <h3 className="chart-title">Weekly Loops — Started vs Completed</h3>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={sessionData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0efef" />
@@ -92,7 +94,7 @@ export const Analytics: React.FC = () => {
                     <YAxis tick={{ fontSize: 12, fill: '#6b6375' }} />
                     <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #e5e4e7', fontSize: 13 }} />
                     <Legend />
-                    <Line type="monotone" dataKey="sessions" stroke="#0066cc" strokeWidth={2.5} dot={{ r: 4 }} name="Started" />
+                    <Line type="monotone" dataKey="loops" stroke="#0066cc" strokeWidth={2.5} dot={{ r: 4 }} name="Started" />
                     <Line type="monotone" dataKey="completed" stroke="#00aa44" strokeWidth={2.5} dot={{ r: 4 }} name="Completed" />
                   </LineChart>
                 </ResponsiveContainer>
@@ -101,14 +103,14 @@ export const Analytics: React.FC = () => {
 
             {activeTab === 'topics' && (
               <div className="chart-wrap">
-                <h3 className="chart-title">Topic Popularity — Sessions by Focus Area</h3>
+                <h3 className="chart-title">Topic Popularity — Loops by Focus Area</h3>
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={topicData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0efef" />
                     <XAxis dataKey="topic" tick={{ fontSize: 11, fill: '#6b6375' }} />
                     <YAxis tick={{ fontSize: 12, fill: '#6b6375' }} />
                     <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #e5e4e7', fontSize: 13 }} />
-                    <Bar dataKey="count" fill="#aa3bff" radius={[4, 4, 0, 0]} name="Sessions" />
+                    <Bar dataKey="count" fill="#000080" radius={[4, 4, 0, 0]} name="Loops" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -116,7 +118,7 @@ export const Analytics: React.FC = () => {
 
             {activeTab === 'engagement' && (
               <div className="chart-wrap">
-                <h3 className="chart-title">Monthly Engagement — Messages & Sessions</h3>
+                <h3 className="chart-title">Monthly Engagement — Messages & Loops</h3>
                 <ResponsiveContainer width="100%" height={280}>
                   <AreaChart data={engagementData} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                     <defs>
@@ -135,7 +137,7 @@ export const Analytics: React.FC = () => {
                     <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #e5e4e7', fontSize: 13 }} />
                     <Legend />
                     <Area type="monotone" dataKey="messages" stroke="#0066cc" fill="url(#msgGrad)" strokeWidth={2} name="Messages" />
-                    <Area type="monotone" dataKey="sessions" stroke="#00aa44" fill="url(#sessGrad)" strokeWidth={2} name="Sessions" />
+                    <Area type="monotone" dataKey="loops" stroke="#00aa44" fill="url(#sessGrad)" strokeWidth={2} name="Loops" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -147,10 +149,10 @@ export const Analytics: React.FC = () => {
               <h3>Teacher Performance</h3>
               <div className="teacher-perf-list">
                 {[
-                  { name: 'Mr. Johnson', sessions: 12, rate: 92 },
-                  { name: 'Ms. Williams', sessions: 10, rate: 88 },
-                  { name: 'Mr. Davis', sessions: 8, rate: 75 },
-                  { name: 'Ms. Brown', sessions: 6, rate: 83 },
+                  { name: 'Mr. Johnson', loops: 12, rate: 92 },
+                  { name: 'Ms. Williams', loops: 10, rate: 88 },
+                  { name: 'Mr. Davis', loops: 8, rate: 75 },
+                  { name: 'Ms. Brown', loops: 6, rate: 83 },
                 ].map((t) => (
                   <div key={t.name} className="perf-row">
                     <div className="perf-avatar" style={{ background: '#ff660022', color: '#ff6600' }}>{t.name.split(' ')[1][0]}</div>
@@ -162,7 +164,7 @@ export const Analytics: React.FC = () => {
                     </div>
                     <div className="perf-stats">
                       <span className="perf-pct">{t.rate}%</span>
-                      <span className="perf-sess">{t.sessions} sess.</span>
+                      <span className="perf-sess">{t.loops} loops</span>
                     </div>
                   </div>
                 ))}
@@ -173,11 +175,11 @@ export const Analytics: React.FC = () => {
               <h3>Key Insights</h3>
               <div className="insights-list">
                 {[
-                  { icon: '🔥', text: '"Engaging students" is the most popular topic — 28 sessions', color: '#ff6600' },
-                  { icon: '📈', text: 'Session completion rate improved 5% this month', color: '#00aa44' },
+                  { icon: '🔥', text: '"Engaging students" is the most popular topic — 28 loops', color: '#ff6600' },
+                  { icon: '📈', text: 'Loop completion rate improved 5% this month', color: '#00aa44' },
                   { icon: '💬', text: '3 conversations have unread messages from teachers', color: '#0066cc' },
-                  { icon: '⚠️', text: '2 teachers have not started a session this week', color: '#ff9900' },
-                  { icon: '🌟', text: 'Coach Sarah achieved the highest engagement rate', color: '#aa3bff' },
+                  { icon: '⚠️', text: '2 teachers have not started a loop this week', color: '#ff9900' },
+                  { icon: '🌟', text: 'Coach Sarah achieved the highest engagement rate', color: '#000080' },
                 ].map((ins, i) => (
                   <div key={i} className="insight-item">
                     <div className="insight-icon" style={{ background: `${ins.color}18` }}>{ins.icon}</div>

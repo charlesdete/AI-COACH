@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
 import Header from '../../../shared/components/Header';
 import Sidebar from '../../../shared/components/Sidebar';
-import { useAuthStore } from '../../../store/authStore';
+import { useAuthStore, getTeachersForCoach } from '../../../store/authStore';
+import type { TeacherProfile } from '../../../store/authStore';
 import { useMessagingStore } from '../../../store/messagingStore';
-import { getAllSessions, closeSession } from '../../../store/sessionStore';
+import { getAllSessions, closeSessionWithCongrats, formatSessionDate } from '../../../store/sessionStore';
 import type { Session } from '../../../store/sessionStore';
 
 const coachNavItems = [
@@ -13,33 +14,50 @@ const coachNavItems = [
   { label: 'My Teachers', path: '/coach/chats', icon: '💬' },
 ];
 
-const ASSIGNED_TEACHERS = [
-  { id: 'teacher-1', name: 'Mr. Johnson', topic: 'Engaging students', sessions: 12, lastActive: '25 min ago', progress: 75 },
-  { id: 'teacher-2', name: 'Ms. Williams', topic: 'Managing behavior', sessions: 10, lastActive: '2 hrs ago', progress: 82 },
-  { id: 'teacher-3', name: 'Mr. Davis', topic: 'Bible lessons', sessions: 8, lastActive: '5 hrs ago', progress: 60 },
-];
+type TeacherWithStats = TeacherProfile & { loops: number; lastActive: string };
 
 export const CoachDashboard: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, assignments } = useAuthStore();
   const { conversations, getTotalUnread } = useMessagingStore();
   const totalUnread = getTotalUnread();
 
-  // Load active AI-coaching sessions for each assigned teacher
+  const assignedTeachers = useMemo(
+    () => getTeachersForCoach(user?.id ?? ''),
+    [user?.id, assignments]
+  );
+
+  const teachersWithStats: TeacherWithStats[] = useMemo(
+    () =>
+      assignedTeachers.map((t) => {
+        const sessions = getAllSessions(t.id);
+        const latest = [...sessions].sort(
+          (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        )[0];
+        return {
+          ...t,
+          loops: sessions.length,
+          lastActive: latest ? formatSessionDate(latest.updatedAt) : 'No activity',
+        };
+      }),
+    [assignedTeachers]
+  );
+
+  // Load active loops for each assigned teacher
   const [teacherSessions, setTeacherSessions] = useState<
-    { teacher: (typeof ASSIGNED_TEACHERS)[0]; session: Session }[]
+    { teacher: TeacherWithStats; session: Session }[]
   >([]);
 
   useEffect(() => {
-    const active = ASSIGNED_TEACHERS.flatMap((t) =>
+    const active = teachersWithStats.flatMap((t) =>
       getAllSessions(t.id)
         .filter((s) => s.status === 'active')
         .map((s) => ({ teacher: t, session: s }))
     );
     setTeacherSessions(active);
-  }, []);
+  }, [teachersWithStats]);
 
   function handleCloseSession(teacherId: string, sessionId: string) {
-    closeSession(teacherId, sessionId);
+    closeSessionWithCongrats(teacherId, sessionId);
     setTeacherSessions((prev) =>
       prev.filter((item) => item.session.id !== sessionId)
     );
@@ -59,7 +77,7 @@ export const CoachDashboard: React.FC = () => {
             <div className="coach-stat" style={{ borderTopColor: '#00aa44' }}>
               <span className="cstat-icon">👥</span>
               <div>
-                <p className="cstat-val">{ASSIGNED_TEACHERS.length}</p>
+                <p className="cstat-val">{assignedTeachers.length}</p>
                 <p className="cstat-label">My Teachers</p>
               </div>
             </div>
@@ -77,11 +95,11 @@ export const CoachDashboard: React.FC = () => {
                 <p className="cstat-label">Unread</p>
               </div>
             </div>
-            <div className="coach-stat" style={{ borderTopColor: '#aa3bff' }}>
+            <div className="coach-stat" style={{ borderTopColor: '#000080' }}>
               <span className="cstat-icon">🎓</span>
               <div>
-                <p className="cstat-val">30</p>
-                <p className="cstat-label">Total Sessions</p>
+                <p className="cstat-val">{teachersWithStats.reduce((sum, t) => sum + t.loops, 0)}</p>
+                <p className="cstat-label">Total Loops</p>
               </div>
             </div>
           </div>
@@ -90,7 +108,7 @@ export const CoachDashboard: React.FC = () => {
           {teacherSessions.length > 0 && (
             <section className="coach-card coach-sessions-card">
               <div className="coach-card-header">
-                <h2>Active Sessions</h2>
+                <h2>Active Loops</h2>
                 <span className="coach-sessions-count">{teacherSessions.length} active</span>
               </div>
               <div className="coach-sessions-list">
@@ -106,9 +124,9 @@ export const CoachDashboard: React.FC = () => {
                     <button
                       className="csr-close-btn"
                       onClick={() => handleCloseSession(teacher.id, session.id)}
-                      title="Close this session"
+                      title="Close this loop"
                     >
-                      Close session
+                      Close loop
                     </button>
                   </div>
                 ))}
@@ -123,10 +141,10 @@ export const CoachDashboard: React.FC = () => {
                 <Link to="/coach/chats" className="view-all-link">View all →</Link>
               </div>
               <div className="teacher-cards">
-                {ASSIGNED_TEACHERS.map((teacher) => (
+                {teachersWithStats.map((teacher) => (
                   <Link key={teacher.id} to={`/coach/chats/${teacher.id}`} className="teacher-card">
                     <div className="tc-avatar" style={{ background: '#ff660018', color: '#ff6600' }}>
-                      {teacher.name.split(' ').map(w => w[0]).join('')}
+                      {teacher.name.split(' ').map((w: string) => w[0]).join('')}
                     </div>
                     <div className="tc-info">
                       <p className="tc-name">{teacher.name}</p>
@@ -136,7 +154,7 @@ export const CoachDashboard: React.FC = () => {
                       </div>
                     </div>
                     <div className="tc-meta">
-                      <p className="tc-sessions">{teacher.sessions} sessions</p>
+                      <p className="tc-sessions">{teacher.loops} loops</p>
                       <p className="tc-active">{teacher.lastActive}</p>
                     </div>
                   </Link>
@@ -153,7 +171,7 @@ export const CoachDashboard: React.FC = () => {
                   { icon: '🎯', tip: 'Ask open-ended questions to help teachers reflect on their practice.' },
                   { icon: '✅', tip: 'Celebrate small wins — progress compounds over time.' },
                   { icon: '📖', tip: 'Reference specific lessons when giving feedback for context.' },
-                  { icon: '🔄', tip: 'Follow up on strategies you\'ve suggested in previous sessions.' },
+                  { icon: '🔄', tip: 'Follow up on strategies you\'ve suggested in previous loops.' },
                 ].map((t, i) => (
                   <div key={i} className="tip-item">
                     <span className="tip-icon">{t.icon}</span>

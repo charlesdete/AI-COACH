@@ -79,6 +79,13 @@
   margin: 0;
 }
 
+.chatroom-coach-link {
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.chatroom-coach-link:hover { color: #3b9e98; text-decoration: underline; }
+
 .chatroom-session-badge {
   font-size: 0.7rem;
   font-weight: 600;
@@ -198,6 +205,59 @@
   padding: 0 4px;
 }
 
+/* ─── Bubble content ─────────────────────────────────────── */
+.bubble-text {
+  display: block;
+}
+
+.chat-attachment-img {
+  display: block;
+  max-width: 220px;
+  max-height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-top: 8px;
+}
+
+.bubble-text + .chat-attachment-img,
+.bubble-text + .chat-attachment-doc { margin-top: 8px; }
+
+.chat-attachment-doc {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.chat-message.coach .chat-attachment-doc {
+  background: #f0faf9;
+  border-color: #c8e8e5;
+}
+
+.doc-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+.doc-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.doc-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.doc-size {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
 /* ─── Typing indicator ───────────────────────────────── */
 .chat-typing {
   display: flex;
@@ -274,15 +334,170 @@
   border-color: #3b9e98;
 }
 
+/* ─── Input area (wraps emoji picker, preview, and bar) ─── */
+.chatroom-input-area {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-top: 1.5px solid #c8e8e5;
+}
+
+/* ─── Emoji picker ───────────────────────────────────────── */
+.emoji-picker {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 16px;
+  width: 320px;
+  background: #ffffff;
+  border: 1.5px solid #c8e8e5;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.emoji-tabs {
+  display: flex;
+  border-bottom: 1.5px solid #c8e8e5;
+  background: #f7fdfc;
+  padding: 4px 6px 0;
+  gap: 2px;
+}
+
+.emoji-tab {
+  flex: 1;
+  padding: 6px 4px;
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.emoji-tab:hover { background: #e6f7f6; }
+.emoji-tab.active { border-bottom-color: #3b9e98; background: #ffffff; }
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+  padding: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.emoji-btn {
+  font-size: 1.25rem;
+  padding: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.1s, transform 0.1s;
+  line-height: 1;
+}
+
+.emoji-btn:hover {
+  background: #e6f7f6;
+  transform: scale(1.2);
+}
+
+/* ─── Pending attachment preview ─────────────────────────── */
+.pending-attachment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 0;
+}
+
+.pending-img-preview {
+  max-height: 80px;
+  max-width: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1.5px solid #c8e8e5;
+}
+
+.pending-doc-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f7fdfc;
+  border: 1.5px solid #c8e8e5;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: #0d3d3c;
+  max-width: 260px;
+}
+
+.pending-doc-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.pending-doc-size { color: #7aaeab; white-space: nowrap; flex-shrink: 0; }
+
+.pending-remove-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #7aaeab;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.pending-remove-btn:hover { background: #fff0f0; color: #c62828; }
+
+.attach-error {
+  padding: 6px 16px 0;
+  font-size: 0.78rem;
+  color: #c62828;
+  margin: 0;
+}
+
 /* ─── Input bar ──────────────────────────────────────── */
 .chatroom-inputbar {
   display: flex;
   align-items: flex-end;
-  gap: 10px;
-  padding: 12px 16px 20px;
+  gap: 8px;
+  padding: 10px 16px 18px;
   background: #ffffff;
-  border-top: 1.5px solid #c8e8e5;
+}
+
+/* ─── Action buttons (emoji / attach) ───────────────────── */
+.chatroom-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #c8e8e5;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.chatroom-action-btn:hover,
+.chatroom-action-btn.active {
+  background: #e6f7f6;
+  border-color: #3b9e98;
 }
 
 .chatroom-textarea {
@@ -377,6 +592,24 @@
 .chatroom-end-btn:hover {
   border-color: #3b9e98;
   color: #0d3d3c;
+}
+
+.chatroom-logout-btn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid #e5e4e7;
+  background: transparent;
+  color: #6b6375;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.chatroom-logout-btn:hover {
+  border-color: #ffcdd2;
+  background: #fff0f0;
+  color: #c62828;
 }
 
 .chatroom-done-badge {

@@ -1,8 +1,8 @@
 // Color palette extracted from existing design system
 export const colorPalette = {
   // Primary colors
-  accent: '#aa3bff',
-  accentLight: '#c084fc',
+  accent: '#000080',
+  accentLight: '#4d79ff',
   
   // Text colors
   textPrimary: '#6b6375',
@@ -23,12 +23,12 @@ export const colorPalette = {
   codeBgDark: '#1f2028',
   
   // Accent backgrounds
-  accentBgLight: 'rgba(170, 59, 255, 0.1)',
-  accentBgDark: 'rgba(192, 132, 252, 0.15)',
-  
+  accentBgLight: 'rgba(0, 0, 128, 0.1)',
+  accentBgDark: 'rgba(77, 121, 255, 0.15)',
+
   // Border accents
-  accentBorderLight: 'rgba(170, 59, 255, 0.5)',
-  accentBorderDark: 'rgba(192, 132, 252, 0.5)',
+  accentBorderLight: 'rgba(0, 0, 128, 0.5)',
+  accentBorderDark: 'rgba(77, 121, 255, 0.5)',
   
   // Social backgrounds
   socialBgLight: 'rgba(244, 243, 236, 0.5)',

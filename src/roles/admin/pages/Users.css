@@ -7,6 +7,12 @@
   flex-wrap: wrap;
 }
 
+.users-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .users-filters {
   display: flex;
   gap: 8px;
@@ -90,7 +96,7 @@
 }
 
 .users-table thead {
-  background: #f8f7ff;
+  background: #f0f4ff;
   border-bottom: 1px solid #e5e4e7;
 }
 
@@ -191,6 +197,272 @@
   color: #6b6375;
   font-size: 14px;
 }
+
+/* ── Actions column ───────────────────────────────────── */
+.actions-cell { width: 140px; }
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.row-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.12s;
+}
+
+.row-btn--edit {
+  border-color: #0066cc;
+  color: #0066cc;
+  background: transparent;
+}
+
+.row-btn--edit:hover { background: #e8f0fe; }
+
+.row-btn--delete {
+  border-color: #dc2626;
+  color: #dc2626;
+  background: transparent;
+}
+
+.row-btn--delete:hover { background: #fef2f2; }
+
+.row-seed-label {
+  font-size: 11px;
+  color: #c4b8cd;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* ── Modal select ──────────────────────────────────────── */
+.modal-select {
+  padding: 9px 12px;
+  border: 1.5px solid #e5e4e7;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #08060d;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.modal-select:focus { border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+
+/* ── Delete confirmation ───────────────────────────────── */
+.modal-card--sm { max-width: 380px; }
+
+.delete-confirm-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.delete-confirm-icon { font-size: 36px; }
+
+.delete-confirm-text {
+  font-size: 14px;
+  color: #08060d;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.delete-confirm-sub {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.modal-delete-btn {
+  padding: 9px 22px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.modal-delete-btn:hover { background: #b91c1c; }
+
+/* ── Add Coach button ─────────────────────────────────── */
+.add-coach-btn {
+  padding: 8px 18px;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.add-coach-btn:hover { background: #004fa3; }
+
+/* ── Modal overlay ────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 6, 13, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 460px;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e5e4e7;
+}
+
+.modal-header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #08060d;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #6b6375;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: background 0.12s, color 0.12s;
+}
+
+.modal-close:hover { background: #f0f0f8; color: #08060d; }
+
+.modal-form {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.modal-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b6375;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modal-field input {
+  padding: 9px 12px;
+  border: 1.5px solid #e5e4e7;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #08060d;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.modal-field input:focus { border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+
+.modal-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #f0f4ff;
+  border: 1.5px solid #ccd9f0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #08060d;
+  line-height: 1.4;
+}
+
+.modal-checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: #0066cc;
+  cursor: pointer;
+}
+
+.modal-error {
+  font-size: 13px;
+  color: #c62828;
+  background: #fff0f0;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modal-cancel-btn {
+  padding: 9px 18px;
+  border: 1.5px solid #e5e4e7;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b6375;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.modal-cancel-btn:hover { border-color: #08060d; color: #08060d; }
+
+.modal-submit-btn {
+  padding: 9px 22px;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.modal-submit-btn:hover:not(:disabled) { background: #004fa3; }
+.modal-submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
 @media (max-width: 768px) {
   .users-table th:nth-child(4),

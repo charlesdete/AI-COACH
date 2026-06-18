@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/authStore";
+import type { UserRole } from "./shared/types/user";
 
 import Login from "./features/auth/pages/Login";
 import SignUp from "./features/auth/pages/Signup";
@@ -13,16 +14,24 @@ import AdminDashboard from "./roles/admin/pages/AdminDashboard";
 import Analytics from "./roles/admin/pages/Analytics";
 import Users from "./roles/admin/pages/Users";
 import Messages from "./roles/admin/pages/Messages";
+import AdminLoops from "./roles/admin/pages/Loops";
+import AdminAssignments from "./roles/admin/pages/Assignments";
 
 import CoachDashboard from "./roles/coach/pages/Dashboard";
 import ActiveChats from "./roles/coach/pages/ActiveChats";
+import CoachProfilePage from "./roles/coach/pages/Profile";
+import TeacherCoachProfile from "./roles/teachers/pages/CoachProfile";
 
 function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: string[] }) {
   const { isAuthenticated, user } = useAuthStore();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (allowedRoles && user && !allowedRoles.includes(user.role)) {
-    const redirects: Record<string, string> = { admin: '/admin', coach: '/coach', teacher: '/dashboard' };
-    return <Navigate to={redirects[user.role] ?? '/login'} replace />;
+  if (allowedRoles && user) {
+    const userRoles: UserRole[] = user.roles ?? [user.role];
+    const hasAccess = allowedRoles.some((r) => userRoles.includes(r as UserRole));
+    if (!hasAccess) {
+      const redirects: Record<string, string> = { admin: '/admin', coach: '/coach', teacher: '/dashboard' };
+      return <Navigate to={redirects[user.role] ?? '/login'} replace />;
+    }
   }
   return <>{children}</>;
 }
@@ -54,12 +63,16 @@ export default function App() {
         <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
         <Route path="/admin/analytics" element={<ProtectedRoute allowedRoles={['admin']}><Analytics /></ProtectedRoute>} />
         <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><Users /></ProtectedRoute>} />
+        <Route path="/admin/assignments" element={<ProtectedRoute allowedRoles={['admin']}><AdminAssignments /></ProtectedRoute>} />
+        <Route path="/admin/loops" element={<ProtectedRoute allowedRoles={['admin']}><AdminLoops /></ProtectedRoute>} />
         <Route path="/admin/messages" element={<ProtectedRoute allowedRoles={['admin']}><Messages /></ProtectedRoute>} />
 
         {/* Coach routes */}
         <Route path="/coach" element={<ProtectedRoute allowedRoles={['coach']}><CoachDashboard /></ProtectedRoute>} />
         <Route path="/coach/chats" element={<ProtectedRoute allowedRoles={['coach']}><ActiveChats /></ProtectedRoute>} />
         <Route path="/coach/chats/:teacherId" element={<ProtectedRoute allowedRoles={['coach']}><ActiveChats /></ProtectedRoute>} />
+        <Route path="/coach/profile" element={<ProtectedRoute allowedRoles={['coach', 'admin']}><CoachProfilePage /></ProtectedRoute>} />
+        <Route path="/teacher/coach-profile" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherCoachProfile /></ProtectedRoute>} />
 
         {/* Catch-all */}
         <Route path="*" element={<RootRedirect />} />
